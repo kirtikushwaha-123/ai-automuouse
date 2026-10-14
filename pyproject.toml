@@ -35,9 +35,9 @@ pythonpath = ["src"]
 testpaths = ["tests"]
 addopts = "-v --tb=short"
 filterwarnings = [
-    "ignore:.*starlette.testclient.*:UserWarning",
-    "ignore::starlette.exceptions.StarletteDeprecationWarning",
+    "ignore:.*starlette.testclient.*",
 ]
+
 
 [tool.ruff]
 line-length = 100
