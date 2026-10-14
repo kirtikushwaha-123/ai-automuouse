@@ -118,7 +118,8 @@ src/rootcause/
 
 ### Step 1: Clone or Open Repository
 ```powershell
-cd C:\Users\kirti\.gemini\antigravity\scratch\rootcause-ai
+git clone https://github.com/kirtikushwaha-123/ai-automuouse.git
+cd ai-automuouse
 ```
 
 ### Step 2: Create and Activate Virtual Environment
@@ -169,7 +170,7 @@ Response:
 ### 2. Submit an Investigation (Synchronous)
 ```powershell
 $body = @{
-    repo_path = "C:\path\to\target\repo"
+    repo_path = "path/to/target/repo"
     bug_description = "Discount calculation applies 10% instead of 15% when total exceeds threshold"
     max_iterations = 5
 } | ConvertTo-Json
@@ -210,18 +211,18 @@ python -m pytest -v
 
 ### Actual Test Suite Structure
 The repository contains **179 automated tests across 12 test modules**:
-1. [`tests/test_benchmarks.py`](file:///C:/Users/kirti/.gemini/antigravity/scratch/rootcause-ai/tests/test_benchmarks.py): 25 tests — Dataset registry, 5-point fixture validation, rule-based scorer, metric denominators, secret redaction, and offline runner.
-2. [`tests/test_live_benchmark.py`](file:///C:/Users/kirti/.gemini/antigravity/scratch/rootcause-ai/tests/test_live_benchmark.py): 20 tests — Live mode fail-closed checks, token aggregation, model tracking, rate-limit retries, cost estimation, and secret scrubbing.
-3. [`tests/test_llm_provider.py`](file:///C:/Users/kirti/.gemini/antigravity/scratch/rootcause-ai/tests/test_llm_provider.py): 8 tests — LLM interface abstractions, OpenAI-compatible adapter, tool-call formatting.
-4. [`tests/test_orchestrator.py`](file:///C:/Users/kirti/.gemini/antigravity/scratch/rootcause-ai/tests/test_orchestrator.py): 5 tests — Autonomous multi-turn investigation loop, evidence linkage, hypothesis submission.
-5. [`tests/test_persistence_and_api.py`](file:///C:/Users/kirti/.gemini/antigravity/scratch/rootcause-ai/tests/test_persistence_and_api.py): 7 tests — SQLite repository save/load/list, FastAPI sync/async endpoints.
-6. [`tests/test_phase3_review.py`](file:///C:/Users/kirti/.gemini/antigravity/scratch/rootcause-ai/tests/test_phase3_review.py): 6 tests — Phase 3 audit verification, honest insufficient evidence representation.
-7. [`tests/test_repo_tools.py`](file:///C:/Users/kirti/.gemini/antigravity/scratch/rootcause-ai/tests/test_repo_tools.py): 40 tests — File tools, search tools, git tools, test runner, explainable bug reproduction.
-8. [`tests/test_security.py`](file:///C:/Users/kirti/.gemini/antigravity/scratch/rootcause-ai/tests/test_security.py): 22 tests — Path traversal prevention, symlink escape rejection, subprocess command allowlisting.
-9. [`tests/test_state_machine.py`](file:///C:/Users/kirti/.gemini/antigravity/scratch/rootcause-ai/tests/test_state_machine.py): 7 tests — State transition validation and illegal transition rejections.
-10. [`tests/test_trace_parser.py`](file:///C:/Users/kirti/.gemini/antigravity/scratch/rootcause-ai/tests/test_trace_parser.py): 11 tests — Traceback extraction, multi-frame parsing, syntax errors.
-11. [`tests/test_verification.py`](file:///C:/Users/kirti/.gemini/antigravity/scratch/rootcause-ai/tests/test_verification.py): 24 tests — Unified diff validation, 3 verification gates, working tree immutability, patch application guard.
-12. [`tests/test_worktree.py`](file:///C:/Users/kirti/.gemini/antigravity/scratch/rootcause-ai/tests/test_worktree.py): 4 tests — Isolated worktree creation, isolation guarantees, cleanup on error.
+1. [`tests/test_benchmarks.py`](tests/test_benchmarks.py): 25 tests — Dataset registry, 5-point fixture validation, rule-based scorer, metric denominators, secret redaction, and offline runner.
+2. [`tests/test_live_benchmark.py`](tests/test_live_benchmark.py): 20 tests — Live mode fail-closed checks, token aggregation, model tracking, rate-limit retries, cost estimation, and secret scrubbing.
+3. [`tests/test_llm_provider.py`](tests/test_llm_provider.py): 8 tests — LLM interface abstractions, OpenAI-compatible adapter, tool-call formatting.
+4. [`tests/test_orchestrator.py`](tests/test_orchestrator.py): 5 tests — Autonomous multi-turn investigation loop, evidence linkage, hypothesis submission.
+5. [`tests/test_persistence_and_api.py`](tests/test_persistence_and_api.py): 7 tests — SQLite repository save/load/list, FastAPI sync/async endpoints.
+6. [`tests/test_phase3_review.py`](tests/test_phase3_review.py): 6 tests — Phase 3 audit verification, honest insufficient evidence representation.
+7. [`tests/test_repo_tools.py`](tests/test_repo_tools.py): 40 tests — File tools, search tools, git tools, test runner, explainable bug reproduction.
+8. [`tests/test_security.py`](tests/test_security.py): 22 tests — Path traversal prevention, symlink escape rejection, subprocess command allowlisting.
+9. [`tests/test_state_machine.py`](tests/test_state_machine.py): 7 tests — State transition validation and illegal transition rejections.
+10. [`tests/test_trace_parser.py`](tests/test_trace_parser.py): 11 tests — Traceback extraction, multi-frame parsing, syntax errors.
+11. [`tests/test_verification.py`](tests/test_verification.py): 24 tests — Unified diff validation, 3 verification gates, working tree immutability, patch application guard.
+12. [`tests/test_worktree.py`](tests/test_worktree.py): 4 tests — Isolated worktree creation, isolation guarantees, cleanup on error.
 
 **Result**: **179 passed in ~99 seconds (0 failures, 0 skips, exit code 0)**.
 

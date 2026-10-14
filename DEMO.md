@@ -28,15 +28,17 @@ This document provides an end-to-end walkthrough for demonstrating RootCause AI 
 
 ## Step 2: Submit a Reproducible Bug (30s)
 
-Start the RootCause AI API server in Terminal 1:
+Start the RootCause AI API server in Terminal 1 (using live provider credentials or mock provider):
 ```powershell
 $env:PYTHONPATH="src"
+# If no live API key is available, use mock provider: $env:ROOTCAUSE_LLM_PROVIDER="mock"
 python -m uvicorn rootcause.api.app:app --host 127.0.0.1 --port 8000
 ```
 
-In Terminal 2, submit the bug investigation (using scenario `BM01_CONDITIONAL_LOGIC` as the target repo):
+In Terminal 2, create the target demo repository from the benchmark dataset and submit the bug investigation:
 ```powershell
 # Create disposable target repo from the built-in benchmark fixture
+$env:PYTHONPATH="src"
 python -c "from rootcause.benchmarks.fixtures import create_fixture_repository; from pathlib import Path; create_fixture_repository('BM01_CONDITIONAL_LOGIC', Path('demo_repo'))"
 
 # Submit investigation synchronously
@@ -66,8 +68,8 @@ $state.hypotheses | ForEach-Object { Write-Host "$($_.title): $($_.description) 
 ### Key Observation to Highlight
 - The hypothesis is not an ungrounded guess. It explicitly references `supporting_evidence_ids` corresponding to real code lines extracted from `src/discount.py`:
   ```python
-  if total > 100:  # Bug: should be total >= 100
-      return total * 0.90
+  if total > 100.0:  # Bug: should be total >= 100.0
+      return round(total * 0.10, 2)
   ```
 
 ---
@@ -85,7 +87,7 @@ Write-Host $patch_res.regression_test.test_content
 
 ### Key Observation to Highlight
 - The patch engine generates a minimal unified diff modifying only `src/discount.py`.
-- It produces a dedicated reproduction test `tests/test_reproduction.py` that specifically tests the boundary case `calculate_discount(100.0) == 90.0`.
+- It produces a dedicated reproduction test `tests/test_reproduction.py` that specifically tests the boundary case `calculate_discount(100.0) == 10.0`.
 
 ---
 
@@ -104,6 +106,9 @@ Write-Host "Gate C (Full Suite No Regressions):  $($verif.gate_c.passed)"
 1. **Gate A**: Verifies the regression test actually fails on the unpatched code. If the test passed on the buggy baseline, it would prove the test is invalid.
 2. **Gate B**: Applies the patch inside a disposable Git worktree and verifies the regression test now passes.
 3. **Gate C**: Runs the entire pre-existing test suite to ensure the fix broke nothing else.
+
+> [!NOTE]
+> While these three verification gates substantially reduce risk and catch regressions, they do not constitute mathematical proof of total correctness for every edge case or concurrency scenario. Final review remains with the human engineer.
 
 ---
 
@@ -138,6 +143,7 @@ Conclude the demonstration by reviewing the evaluation framework:
 
 ### A. Run Simulated Offline Benchmark
 ```powershell
+$env:PYTHONPATH="src"
 python -m rootcause.benchmarks.runner --mode simulated
 ```
 - **Result**: 5/5 cases pass in deterministic offline simulation, proving that the multi-turn agent loop, evidence collection, and 3-gate verification engine operate reliably.
@@ -158,4 +164,6 @@ Remove-Item -Recurse -Force demo_repo
 
 ## Conclusion
 
-RootCause AI eliminates the primary barrier to autonomous coding agents: **trust**. By grounding every hypothesis in empirical evidence and verifying every fix through independent gates in isolated worktrees, it guarantees that proposed patches actually fix the reported issue without breaking production code.
+RootCause AI addresses a primary barrier to autonomous coding agents: **auditability and empirical verification**. By grounding every hypothesis in observed repository evidence and testing candidate patches against independent verification gates in isolated worktrees, it substantially reduces the risk of hallucinations, superficial fixes, and test regressions.
+
+However, three-gate verification is not a formal mathematical proof of total program correctness: dynamic edge cases, unexercised branches, concurrency races, and untracked external service dependencies can still harbor subtle defects. The system is designed to augment human engineers through rigorous automated triage and empirical validation, keeping the human engineer in control of the final merge decision.

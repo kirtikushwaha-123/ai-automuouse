@@ -1,14 +1,14 @@
 {
-  "run_id": "ce4eb6e6-4b7c-4751-9d5b-95be15ae6d2d",
+  "run_id": "9bfc2360-1b2f-47cd-b926-5ac6dac110db",
   "benchmark_version": "0.1.0",
-  "timestamp": "2026-10-14T05:05:30.385864Z",
+  "timestamp": "2026-10-14T05:31:59.734992Z",
   "evaluation_mode": "SIMULATED_OFFLINE",
   "mode_clarification": "SIMULATED_OFFLINE: Results exercise orchestration, evidence gathering, and verification plumbing using deterministic simulation. Not presented as autonomous LLM diagnostic performance.",
   "provider_info": "MockLLMProvider (simulated offline)",
   "requested_model": null,
   "actual_model": null,
   "seed": 42,
-  "total_cases": 1,
+  "total_cases": 5,
   "total_prompt_tokens": null,
   "total_completion_tokens": null,
   "total_tokens": null,
@@ -18,7 +18,7 @@
       "case_id": "BM01_CONDITIONAL_LOGIC",
       "category": "CONDITIONAL_LOGIC",
       "evaluation_mode": "SIMULATED_OFFLINE",
-      "duration_seconds": 3.8984,
+      "duration_seconds": 2.7107,
       "investigation_status": "PATCH_VERIFIED",
       "root_cause_score": {
         "matched": true,
@@ -32,11 +32,11 @@
         "matched_files": [
           "src/discount.py"
         ],
-        "reason": "Diagnosis identified relevant file(s) ['src/discount.py'] with verified evidence [1375840e-d9af-4cac-a405-b9d5a36ccba5] and matched 3/3 distinctive keywords: ['discount', 'threshold', 'greater']."
+        "reason": "Diagnosis identified relevant file(s) ['src/discount.py'] with verified evidence [b4de80d1-5826-4cd4-9bab-f3dc8a92afad] and matched 3/3 distinctive keywords: ['discount', 'threshold', 'greater']."
       },
       "evidence_count": 1,
       "evidence_ids": [
-        "1375840e-d9af-4cac-a405-b9d5a36ccba5"
+        "b4de80d1-5826-4cd4-9bab-f3dc8a92afad"
       ],
       "hypothesis_source": "SIMULATED",
       "patch_generated": true,
@@ -60,7 +60,7 @@
       "actual_model": null,
       "hypothesis_text": "[SIMULATED] Cart Discount Threshold Comparison Root Cause in src/discount.py: [SIMULATED] In src/discount.py: In calculate_discount in src/discount.py, the comparison uses strictly greater '>' instead of greater-than-or-equal '>=' against the 100.0 threshold.. Root cause involves discount, threshold, greater.",
       "evidence_references": [
-        "1375840e-d9af-4cac-a405-b9d5a36ccba5"
+        "b4de80d1-5826-4cd4-9bab-f3dc8a92afad"
       ],
       "retry_count": 0,
       "prompt_tokens": null,
@@ -68,27 +68,251 @@
       "total_tokens": null,
       "estimated_cost_usd": null,
       "rate_limited": false,
-      "fixture_commit_hash": "71f64fdb4a2e56e8ce6b48d282acf02513ab6bd4"
+      "fixture_commit_hash": "f4ee65ed90f35774069664415f7341a4c0959043"
+    },
+    {
+      "case_id": "BM02_BOUNDARY_OFF_BY_ONE",
+      "category": "BOUNDARY_CONDITION",
+      "evaluation_mode": "SIMULATED_OFFLINE",
+      "duration_seconds": 2.6511,
+      "investigation_status": "PATCH_VERIFIED",
+      "root_cause_score": {
+        "matched": true,
+        "metric_label": "heuristic matching accuracy",
+        "matched_keywords": [
+          "pagination",
+          "slice",
+          "boundary"
+        ],
+        "missing_keywords": [],
+        "matched_files": [
+          "src/pagination.py"
+        ],
+        "reason": "Diagnosis identified relevant file(s) ['src/pagination.py'] with verified evidence [784db6df-a39e-4e65-916a-578a28b4adcc] and matched 3/3 distinctive keywords: ['pagination', 'slice', 'boundary']."
+      },
+      "evidence_count": 1,
+      "evidence_ids": [
+        "784db6df-a39e-4e65-916a-578a28b4adcc"
+      ],
+      "hypothesis_source": "SIMULATED",
+      "patch_generated": true,
+      "patch_source": "SIMULATED",
+      "regression_test_generated": true,
+      "regression_test_source": "SIMULATED",
+      "gate_a_attempted": true,
+      "gate_a_passed": true,
+      "gate_b_attempted": true,
+      "gate_b_passed": true,
+      "gate_c_attempted": true,
+      "gate_c_passed": true,
+      "verification_executed_by": "REAL_WORKFLOW",
+      "verified": true,
+      "failing_gate": null,
+      "error_message": null,
+      "error_type": null,
+      "timed_out": false,
+      "token_usage": "unavailable",
+      "requested_model": null,
+      "actual_model": null,
+      "hypothesis_text": "[SIMULATED] Pagination Slice Upper Bound Off-By-One Root Cause in src/pagination.py: [SIMULATED] In src/pagination.py: In paginate_items in src/pagination.py, end_idx - 1 is used in slice instead of end_idx, omitting the final item on each page.. Root cause involves pagination, slice, boundary.",
+      "evidence_references": [
+        "784db6df-a39e-4e65-916a-578a28b4adcc"
+      ],
+      "retry_count": 0,
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "total_tokens": null,
+      "estimated_cost_usd": null,
+      "rate_limited": false,
+      "fixture_commit_hash": "19fb0da1a49ed5d2dc39d881e2ee15915a236a22"
+    },
+    {
+      "case_id": "BM03_DATA_HANDLING_NONE",
+      "category": "DATA_HANDLING",
+      "evaluation_mode": "SIMULATED_OFFLINE",
+      "duration_seconds": 2.661,
+      "investigation_status": "PATCH_VERIFIED",
+      "root_cause_score": {
+        "matched": true,
+        "metric_label": "heuristic matching accuracy",
+        "matched_keywords": [
+          "profile",
+          "none",
+          "attributeerror"
+        ],
+        "missing_keywords": [],
+        "matched_files": [
+          "src/profile.py"
+        ],
+        "reason": "Diagnosis identified relevant file(s) ['src/profile.py'] with verified evidence [cec7e51a-1c60-4d9b-9d1f-97ecec5d376d] and matched 3/3 distinctive keywords: ['profile', 'none', 'attributeerror']."
+      },
+      "evidence_count": 1,
+      "evidence_ids": [
+        "cec7e51a-1c60-4d9b-9d1f-97ecec5d376d"
+      ],
+      "hypothesis_source": "SIMULATED",
+      "patch_generated": true,
+      "patch_source": "SIMULATED",
+      "regression_test_generated": true,
+      "regression_test_source": "SIMULATED",
+      "gate_a_attempted": true,
+      "gate_a_passed": true,
+      "gate_b_attempted": true,
+      "gate_b_passed": true,
+      "gate_c_attempted": true,
+      "gate_c_passed": true,
+      "verification_executed_by": "REAL_WORKFLOW",
+      "verified": true,
+      "failing_gate": null,
+      "error_message": null,
+      "error_type": null,
+      "timed_out": false,
+      "token_usage": "unavailable",
+      "requested_model": null,
+      "actual_model": null,
+      "hypothesis_text": "[SIMULATED] Profile Formatting Unhandled None AttributeError Root Cause in src/profile.py: [SIMULATED] In src/profile.py: In format_user_bio in src/profile.py, bio is stripped directly without checking if it is None or empty, causing AttributeError on NoneType.. Root cause involves profile, none, attributeerror.",
+      "evidence_references": [
+        "cec7e51a-1c60-4d9b-9d1f-97ecec5d376d"
+      ],
+      "retry_count": 0,
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "total_tokens": null,
+      "estimated_cost_usd": null,
+      "rate_limited": false,
+      "fixture_commit_hash": "9ebbb983ef909a833f8008779810fd5c79f6730b"
+    },
+    {
+      "case_id": "BM04_CODE_REGRESSION",
+      "category": "REGRESSION",
+      "evaluation_mode": "SIMULATED_OFFLINE",
+      "duration_seconds": 2.9974,
+      "investigation_status": "PATCH_VERIFIED",
+      "root_cause_score": {
+        "matched": true,
+        "metric_label": "heuristic matching accuracy",
+        "matched_keywords": [
+          "formatter",
+          "sanitize",
+          "tuple"
+        ],
+        "missing_keywords": [],
+        "matched_files": [
+          "src/formatter.py"
+        ],
+        "reason": "Diagnosis identified relevant file(s) ['src/formatter.py'] with verified evidence [630eddd5-5eea-4532-b43f-7f6ba8d800e4] and matched 3/3 distinctive keywords: ['formatter', 'sanitize', 'tuple']."
+      },
+      "evidence_count": 1,
+      "evidence_ids": [
+        "630eddd5-5eea-4532-b43f-7f6ba8d800e4"
+      ],
+      "hypothesis_source": "SIMULATED",
+      "patch_generated": true,
+      "patch_source": "SIMULATED",
+      "regression_test_generated": true,
+      "regression_test_source": "SIMULATED",
+      "gate_a_attempted": true,
+      "gate_a_passed": true,
+      "gate_b_attempted": true,
+      "gate_b_passed": true,
+      "gate_c_attempted": true,
+      "gate_c_passed": true,
+      "verification_executed_by": "REAL_WORKFLOW",
+      "verified": true,
+      "failing_gate": null,
+      "error_message": null,
+      "error_type": null,
+      "timed_out": false,
+      "token_usage": "unavailable",
+      "requested_model": null,
+      "actual_model": null,
+      "hypothesis_text": "[SIMULATED] Refactoring Return Type Regression in Title Formatter Root Cause in src/formatter.py: [SIMULATED] In src/formatter.py: Commit refactored sanitize_input return type from str to Tuple[str, bool], but caller format_title in src/formatter.py was not updated to unpack the tuple.. Root cause involves formatter, sanitize, tuple.",
+      "evidence_references": [
+        "630eddd5-5eea-4532-b43f-7f6ba8d800e4"
+      ],
+      "retry_count": 0,
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "total_tokens": null,
+      "estimated_cost_usd": null,
+      "rate_limited": false,
+      "fixture_commit_hash": "619393255428ee194ff5dc4a33867efd65c6cc6a"
+    },
+    {
+      "case_id": "BM05_ZERO_DIVISION",
+      "category": "NUMERIC_ERROR",
+      "evaluation_mode": "SIMULATED_OFFLINE",
+      "duration_seconds": 2.7985,
+      "investigation_status": "PATCH_VERIFIED",
+      "root_cause_score": {
+        "matched": true,
+        "metric_label": "heuristic matching accuracy",
+        "matched_keywords": [
+          "average",
+          "empty",
+          "zerodivisionerror"
+        ],
+        "missing_keywords": [],
+        "matched_files": [
+          "src/stats.py"
+        ],
+        "reason": "Diagnosis identified relevant file(s) ['src/stats.py'] with verified evidence [62f4603c-1c40-499d-b7a9-de7a7f5dc772] and matched 3/3 distinctive keywords: ['average', 'empty', 'zerodivisionerror']."
+      },
+      "evidence_count": 1,
+      "evidence_ids": [
+        "62f4603c-1c40-499d-b7a9-de7a7f5dc772"
+      ],
+      "hypothesis_source": "SIMULATED",
+      "patch_generated": true,
+      "patch_source": "SIMULATED",
+      "regression_test_generated": true,
+      "regression_test_source": "SIMULATED",
+      "gate_a_attempted": true,
+      "gate_a_passed": true,
+      "gate_b_attempted": true,
+      "gate_b_passed": true,
+      "gate_c_attempted": true,
+      "gate_c_passed": true,
+      "verification_executed_by": "REAL_WORKFLOW",
+      "verified": true,
+      "failing_gate": null,
+      "error_message": null,
+      "error_type": null,
+      "timed_out": false,
+      "token_usage": "unavailable",
+      "requested_model": null,
+      "actual_model": null,
+      "hypothesis_text": "[SIMULATED] Statistics Calculator ZeroDivisionError on Empty List Root Cause in src/stats.py: [SIMULATED] In src/stats.py: calculate_average in src/stats.py lacks an empty-list guard, causing ZeroDivisionError when dividing by len(scores) which is 0.. Root cause involves average, empty, zerodivisionerror.",
+      "evidence_references": [
+        "62f4603c-1c40-499d-b7a9-de7a7f5dc772"
+      ],
+      "retry_count": 0,
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "total_tokens": null,
+      "estimated_cost_usd": null,
+      "rate_limited": false,
+      "fixture_commit_hash": "efda5c4fb25c76712acc5b830f3d65dbb640dbc9"
     }
   ],
   "metrics": {
-    "total_cases": 1,
-    "completed_investigations": 1,
+    "total_cases": 5,
+    "completed_investigations": 5,
     "investigation_completion_rate": 1.0,
     "investigation_completion_rate_percentage": "100.0%",
-    "root_cause_matches": 1,
+    "root_cause_matches": 5,
     "root_cause_match_rate": 1.0,
     "root_cause_match_rate_percentage": "100.0%",
-    "patches_generated": 1,
+    "patches_generated": 5,
     "patch_generation_rate": 1.0,
     "patch_generation_rate_percentage": "100.0%",
-    "regression_tests_generated": 1,
+    "regression_tests_generated": 5,
     "regression_test_generation_rate": 1.0,
     "regression_test_generation_rate_percentage": "100.0%",
     "gate_a": {
       "gate_name": "GATE_A",
-      "eligible_attempts": 1,
-      "successes": 1,
+      "eligible_attempts": 5,
+      "successes": 5,
       "failures": 0,
       "timeouts": 0,
       "inconclusive": 0,
@@ -99,8 +323,8 @@
     },
     "gate_b": {
       "gate_name": "GATE_B",
-      "eligible_attempts": 1,
-      "successes": 1,
+      "eligible_attempts": 5,
+      "successes": 5,
       "failures": 0,
       "timeouts": 0,
       "inconclusive": 0,
@@ -111,8 +335,8 @@
     },
     "gate_c": {
       "gate_name": "GATE_C",
-      "eligible_attempts": 1,
-      "successes": 1,
+      "eligible_attempts": 5,
+      "successes": 5,
       "failures": 0,
       "timeouts": 0,
       "inconclusive": 0,
@@ -121,7 +345,7 @@
       "denominator_description": "Cases that passed Gate B and attempted Gate C",
       "zero_denominator_reason": null
     },
-    "verified_patches": 1,
+    "verified_patches": 5,
     "overall_verification_rate": 1.0,
     "overall_verification_rate_percentage": "100.0%",
     "failed_cases": 0,
@@ -135,7 +359,7 @@
     "total_completion_tokens": null,
     "total_tokens": null,
     "total_estimated_cost_usd": null,
-    "mean_runtime_seconds": 3.8984,
-    "median_runtime_seconds": 3.8984
+    "mean_runtime_seconds": 2.7637,
+    "median_runtime_seconds": 2.7107
   }
 }

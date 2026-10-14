@@ -14,12 +14,13 @@ from rootcause.verification.patch_engine import apply_diff_to_worktree
 
 def _init_git_repo(repo_dir: Path) -> SubprocessRunner:
     """Initialize a git repo with standard test user config."""
-    repo_dir.mkdir(parents=True, exist_ok=True)
-    subprocess.run(["git", "init"], cwd=str(repo_dir), check=True, capture_output=True)
-    subprocess.run(["git", "config", "user.email", "benchmark@rootcause.ai"], cwd=str(repo_dir), check=True, capture_output=True)
-    subprocess.run(["git", "config", "user.name", "Benchmark Agent"], cwd=str(repo_dir), check=True, capture_output=True)
-    (repo_dir / ".gitignore").write_text(".pytest_cache/\n__pycache__/\n*.pyc\n", encoding="utf-8")
-    return SubprocessRunner(allowed_root=repo_dir)
+    resolved_repo = Path(repo_dir).resolve()
+    resolved_repo.mkdir(parents=True, exist_ok=True)
+    subprocess.run(["git", "init"], cwd=str(resolved_repo), check=True, capture_output=True)
+    subprocess.run(["git", "config", "user.email", "benchmark@rootcause.ai"], cwd=str(resolved_repo), check=True, capture_output=True)
+    subprocess.run(["git", "config", "user.name", "Benchmark Agent"], cwd=str(resolved_repo), check=True, capture_output=True)
+    (resolved_repo / ".gitignore").write_text(".pytest_cache/\n__pycache__/\n*.pyc\n", encoding="utf-8")
+    return SubprocessRunner(allowed_root=resolved_repo)
 
 
 def setup_bm01_conditional_logic(target_dir: Path) -> Path:
@@ -244,7 +245,8 @@ def create_fixture_repository(case_id: str, target_dir: Path) -> Path:
     """
     if case_id not in FIXTURE_SETUP_FUNCTIONS:
         raise ValueError(f"Unknown benchmark fixture case ID: '{case_id}'")
-    
+
+    target_dir = Path(target_dir).resolve()
     if target_dir.exists():
         shutil.rmtree(target_dir, ignore_errors=True)
     target_dir.mkdir(parents=True, exist_ok=True)

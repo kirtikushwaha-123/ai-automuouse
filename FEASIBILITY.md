@@ -20,6 +20,7 @@ The technical implementation is backed by a comprehensive automated test suite:
 
 ### C. Technical Risks & Integration Challenges
 - **Process Isolation Boundary**: Currently, test execution occurs in the host environment via controlled subprocess calls. While paths and commands are restricted, executing untrusted third-party code in `pytest` carries a risk of arbitrary host code execution. Mitigation for enterprise deployment requires delegating test execution to ephemeral Docker containers or gVisor microVMs.
+- **Lack of Completed Live-Provider Evaluation**: While the live-provider integration, fail-closed credential validation, token accounting, model tracking, and rate-limit retry logic have been structurally implemented and verified by automated unit tests (`tests/test_live_benchmark.py`), an empirical end-to-end benchmark run against an active, paid third-party LLM endpoint (such as live OpenAI or Anthropic API) has not yet been completed due to the absence of active API credentials in the evaluation environment. Consequently, live diagnostic accuracy rates, unconstrained model behavior, and real-world patch generation success rates remain to be empirically measured on live endpoints.
 - **Patch Complexity**: The current patch engine targets single-file or targeted multi-file unified diffs. Highly distributed architectural refactorings spanning dozens of files may exceed the context window or reasoning capacity of current LLMs.
 - **Flaky Tests**: Gate A relies on deterministic test failures. Flaky tests that fail intermittently for timing reasons can produce inconclusive or false verification results.
 
@@ -32,7 +33,7 @@ The technical implementation is backed by a comprehensive automated test suite:
 - **Third-Party Licensing**: Zero software licensing costs; the system relies exclusively on permissive open-source libraries (MIT/Apache 2.0).
 
 ### B. API Usage Costs & Cost Modeling
-Operational costs are almost entirely governed by LLM token consumption. The platform includes precise usage telemetry in [`src/rootcause/benchmarks/tracking.py`](file:///C:/Users/kirti/.gemini/antigravity/scratch/rootcause-ai/src/rootcause/benchmarks/tracking.py) and cost estimation in [`src/rootcause/benchmarks/metrics.py`](file:///C:/Users/kirti/.gemini/antigravity/scratch/rootcause-ai/src/rootcause/benchmarks/metrics.py).
+Operational costs are almost entirely governed by LLM token consumption. The platform includes precise usage telemetry in [`src/rootcause/benchmarks/tracking.py`](src/rootcause/benchmarks/tracking.py) and cost estimation in [`src/rootcause/benchmarks/metrics.py`](src/rootcause/benchmarks/metrics.py).
 
 #### Cost per Investigation (Empirical Projections)
 A typical autonomous investigation involves 3–5 tool iterations followed by candidate patch and test generation:
@@ -46,7 +47,7 @@ A typical autonomous investigation involves 3–5 tool iterations followed by ca
 | **Claude 3.5 Sonnet** | \$3.00 / \$15.00 | **\$0.0780** | **\$78.00** |
 | **Local Models (Ollama / vLLM)** | Hardware compute only | **\$0.00** | **\$0.00** |
 
-*Note: In compliance with project evaluation standards, these figures represent direct API consumption costs based on published model pricing. They do not claim or invent speculative "engineering labor savings" or unverified ROI metrics.*
+*Note: In compliance with project evaluation standards, these figures represent direct API consumption costs based on published model pricing. They do not claim or invent speculative "engineering labor savings", adoption rates, or unverified ROI metrics.*
 
 ---
 
@@ -83,10 +84,13 @@ RootCause AI is designed as a developer copilot and triage assistant, not an uns
 ## 5. Constraints & Future Scope
 
 ### Constraints
+- **Host-Level Process Sandbox Boundary**: Subprocess tools currently execute directly on the host machine. Full kernel-level sandboxing (Docker, Firecracker, or gVisor) is not yet integrated.
+- **Unmeasured Live-Provider Production Accuracy**: Because no live API key was supplied, full empirical diagnostic accuracy on live models has not been measured; only simulated plumbing and live fail-closed handling have been empirically verified.
 - **Runtime Environment**: Subprocess tools currently assume standard Windows/Linux shell tools (`git`, `pytest`, Python virtualenvs).
 - **Single Repository Boundary**: RootCause AI does not trace calls across distributed microservice boundaries or external databases.
 
 ### Future Scope
 1. **Containerized Sandboxing**: Integrate Docker or Podman runners to isolate untrusted repository code execution at the container boundary.
-2. **Multi-Language Support**: Implement tool adapters for Node.js (`jest`), Go (`go test`), and Rust (`cargo test`).
-3. **Automated PR Generation**: Add direct GitHub/GitLab integration to open draft Pull Requests containing verified patches and regression tests.
+2. **Completed Live Benchmark**: Run evaluation against active OpenAI and Anthropic endpoints once production credentials are supplied.
+3. **Multi-Language Support**: Implement tool adapters for Node.js (`jest`), Go (`go test`), and Rust (`cargo test`).
+4. **Automated PR Generation**: Add direct GitHub/GitLab integration to open draft Pull Requests containing verified patches and regression tests.
