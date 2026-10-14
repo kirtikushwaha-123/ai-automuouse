@@ -1,0 +1,34 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest / test cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environments & virtualenvs
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Benchmark temporary worktrees & results
+rootcause_bm_*
+rootcause_worktree_*
+rootcause_test_*
+benchmark_live_results.json
+demo_repo/
+
+# IDEs & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
